@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEMENTAL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="scores">
+        <div id="scoreFire" class="score">
+            <img id="fireIcon" src="./assets/fire.png" alt="Fire Icon" class="icon" />
+            <span id="fireCount">0</span>
+        </div>
+        <div id="scoreGrass" class="score">
+            <img id="grassIcon" src="./assets/leaf.png" alt="Leaf Icon" class="icon"  />
+            <span id="grassCount">0</span>
+        </div>
+        <div id="scoreWater" class="score">
+            <img id="waterIcon" src="./assets/water.png" alt="Water Icon" class="icon" />
+            <span id="waterCount">0</span>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="start-button">Start</button>
+        <button id="stop-button" class="hidden">Stop</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

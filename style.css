@@ -1,0 +1,80 @@
+body{
+    /* background con aurora boreale scura */
+    background: linear-gradient(50deg, #020027 0%, #2a0000 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    gap: 10px
+}
+
+.controls{
+  height: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  gap: 20px;
+  position: absolute;
+  bottom: 15px;
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
+}
+
+#scores{
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    padding: 0 10px; 
+    gap: 20px;
+}
+
+.score {
+    color: white;
+    font-size: 20px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas{
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#start-button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 1px 40px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 20px;
+}
+
+#stop-button {
+    background-color: #f44336;
+    color: white;
+    padding: 1px 40px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 20px;
+}
+
+.hidden{
+    display: none;
+}
