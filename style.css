@@ -132,8 +132,9 @@ canvas{
         position: absolute;
         top: 5px;
         left: 80%;
-    }
-     .title img{
         width: 100px;
+    }
+     .title{
+        height: 0;
      }
 }
