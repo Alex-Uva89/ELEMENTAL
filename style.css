@@ -121,16 +121,17 @@ canvas{
         height: auto;
         gap: 10px;
         padding: 1px 20px;
+        left: 10%;
     }
 
     .score{
         font-size: 15px;
     }
 
-    .title{
+    .title img{
         position: absolute;
         top: 5px;
-        right: 10px;
+        left: 80%;
     }
      .title img{
         width: 100px;

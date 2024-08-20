@@ -23,8 +23,8 @@ window.onload = function() {
     window.addEventListener('resize', resizeGame);
     
     function resizeGame() {
-        var width = window.innerWidth * 0.85;
-        var height = window.innerHeight * 0.85;
+        var width = window.innerWidth * 0.7;
+        var height = window.innerHeight * 0.7;
     
         game.scale.resize(width, height);
         game.physics.world.setBounds(0, 0, width, height);
