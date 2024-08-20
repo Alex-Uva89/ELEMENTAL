@@ -1,4 +1,6 @@
 window.onload = function() {
+    var iconCounts = {};
+
     var config = {
         type: Phaser.AUTO,
         width: window.innerWidth * 0.85,
@@ -81,24 +83,29 @@ window.onload = function() {
         document.getElementById('start-button').addEventListener('click', startGame);
         document.getElementById('stop-button').addEventListener('click', stopGame);
     }
+
+    showStartScreen();
+
+    
     
     function checkVictory() {
-        let iconCounts = {};
-    
+        iconCounts = {};
+
+        
+
         icons.children.iterate(function(icon) {
             let key = icon.texture.key;
             if (!iconCounts[key]) {
                 iconCounts[key] = 0;
+                
             }
             iconCounts[key]++;
         });
-
-        console.log('Icon counts:', iconCounts); // Log per il debug
     
         for (let key in iconCounts) {
             if (iconCounts[key] === 48) {
-                console.log(`Victory detected for ${key}`); // Log per il debug
                 showVictoryScreen(key);
+                iconCounts = {};
                 break;
             }
         }
@@ -107,49 +114,54 @@ window.onload = function() {
     function showVictoryScreen(winningIconKey) {
         // Ferma la musica e il gioco
         const tableScore = document.getElementById('scores');
-
+        const restartButton = document.getElementById('restart-button');
+        const title = document.getElementById('title');
+        
         music.stop();
         game.scene.pause('default');
-    
+        
         // Mostra la schermata di vittoria
-        let victoryScreen = document.createElement('div');
-        victoryScreen.id = 'victory-screen';
-        victoryScreen.style.position = 'absolute';
-        victoryScreen.style.width = '90vw';
-        victoryScreen.style.height = '90vh';
-        victoryScreen.style.top = '50%';
-        victoryScreen.style.left = '50%';
-        victoryScreen.style.transform = 'translate(-50%, -50%)';
-        victoryScreen.style.padding = '20px';
-        victoryScreen.style.backgroundColor = 'yellow';
-        victoryScreen.style.color = 'white';
-        victoryScreen.style.textAlign = 'center';
-        victoryScreen.style.zIndex = '1000';
-        victoryScreen.style.display = 'flex';
-        victoryScreen.style.flexDirection = 'column';
-        victoryScreen.style.justifyContent = 'center';
-        victoryScreen.style.alignItems = 'center';
-        victoryScreen.style.color = 'black';
-        victoryScreen.style.fontSize = '3rem';
-        victoryScreen.style.fontWeight = 'bold';
-        victoryScreen.style.borderRadius = '10px';
-        victoryScreen.style.boxShadow = '0 0 10px 5px rgba(0, 0, 0, 0.5)';
-        victoryScreen.style.textTransform = 'uppercase';
-        victoryScreen.style.border = '5px solid black';
-
-        tableScore.style.display = 'none';
-    
-        let winningIcon = document.createElement('img');
+        let victoryScreen = document.getElementById('victory-screen');
+        let winningIcon = document.getElementById('winning-icon');
+        let victoryMessage = document.getElementById('victory-message');
+        
         winningIcon.src = `assets/${winningIconKey}.png`; // Assicurati che il percorso dell'immagine sia corretto
-        winningIcon.style.width = '100px';
-        winningIcon.style.height = '100px';
+        
+        if (selectedPokemon === winningIconKey) {
+            victoryMessage.textContent = `Complimenti! Il tuo Pokémon ${winningIconKey} ha vinto!`;
+        } else {
+            victoryMessage.textContent = `Mi spiace, ha vinto ${winningIconKey}.`;
+        }
+        
+        tableScore.style.display = 'none';
+        victoryScreen.style.display = 'flex';
+        title.style.display = 'none';
+
+        restartButton.addEventListener('click', () => {
+            victoryScreen.style.display = 'none';
+            iconCounts = { squirtle: 0, bulbasaur: 0, charmander: 0 };
+            selectedPokemon = null;
+            showStartScreen();
+        });
+    }
+
+    function showStartScreen() {
+        let title = document.getElementById('title');
+        let scores = document.getElementById('scores');
+        let startScreen = document.getElementById('start-screen');
+        startScreen.style.display = 'flex'; 
+        scores.style.display = 'flex';
+        title.style.display = 'none';
     
-        let victoryMessage = document.createElement('p');
-        victoryMessage.textContent = `${winningIconKey} ha vinto!`;
-    
-        victoryScreen.appendChild(winningIcon);
-        victoryScreen.appendChild(victoryMessage);
-        document.body.appendChild(victoryScreen);
+        let pokemonDivs = document.querySelectorAll('#pokemon-container .pokemon');
+        pokemonDivs.forEach(pokemonDiv => {
+            pokemonDiv.addEventListener('click', () => {
+                let selectedPokemon = pokemonDiv.getAttribute('data-pokemon');
+                iconCounts = {};
+                startGame(selectedPokemon);
+                startScreen.style.display = 'none'; // Nascondi di nuovo l'elemento
+            });
+        });
     }
 
     function update() {
@@ -176,27 +188,44 @@ window.onload = function() {
         document.getElementById('waterCount').textContent = scoreWater;
     }
 
-    function startGame() {
-        gamePaused = false;
-        game.scene.resume('default');  // Riprendi il gioco
     
+
+    let selectedPokemon;
+    
+    function startGame(pokemon) {
+
+        let title = document.getElementById('title');
+
+        selectedPokemon = pokemon;
+        gamePaused = false;
+        
+        // Reset delle icone e dei contatori
         icons.children.iterate(function(icon) {
+            let originalType = icon.getData('originalType') || icon.texture.key;
+            icon.setTexture(originalType);  // Ripristina il tipo originale dell'icona
+            icon.setData('originalType', originalType);
+            
+            // Imposta una nuova posizione casuale
+            let x = Phaser.Math.Between(50, config.width - 50);
+            let y = Phaser.Math.Between(50, config.height - 50);
+            icon.setPosition(x, y);
+            
+            // Resetta la velocità
             let angle = Phaser.Math.Between(0, 360);  // Angolo casuale in gradi
-            let speed;
-        
-            if (window.innerWidth < 768) {
-                speed = Phaser.Math.Between(5, 30); // Velocità più bassa per schermi piccoli
-            } else {
-                speed = Phaser.Math.Between(10, 50); // Velocità normale per schermi grandi
-            }
-        
-            // Imposta la velocità e la direzione per ogni icona
+            let speed = window.innerWidth < 768 ? Phaser.Math.Between(5, 30) : Phaser.Math.Between(10, 50);
             let velocityX = Math.cos(Phaser.Math.DegToRad(angle)) * speed;
             let velocityY = Math.sin(Phaser.Math.DegToRad(angle)) * speed;
-        
             icon.setVelocity(velocityX, velocityY);
         });
+
+        title.style.display = 'flex';
     
+        // Resetta il conteggio delle icone
+        iconCounts = { squirtle: 0, bulbasaur: 0, charmander: 0 };
+        
+        updateScores();  // Aggiorna i punteggi visivi
+        game.scene.resume('default');  // Riprendi il gioco
+        
         document.getElementById('start-button').classList.add('hidden');
         document.getElementById('stop-button').classList.remove('hidden');
         if (music.isPaused) {
@@ -204,8 +233,11 @@ window.onload = function() {
         } else {
             music.play({ loop: true });
         }
-    }
     
+        // Nascondi la schermata di vittoria
+        document.getElementById('victory-screen').style.display = 'none';
+    }
+
     function stopGame() {
         gamePaused = true;
         icons.setVelocity(0, 0);  // Ferma tutte le icone

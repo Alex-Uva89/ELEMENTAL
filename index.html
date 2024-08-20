@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="title">
+    <div class="title" id="title">
         <img src="./assets/titlePkm.png" alt="Pokemon Logo">
     </div>
     <div id="scores">
@@ -27,6 +27,35 @@
     <div class="controls">
         <button id="start-button">Start</button>
         <button id="stop-button" class="hidden">Stop</button>
+    </div>
+
+
+    <!-- START -->
+
+    <div id="start-screen" style="display: none; position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; background-color: rgba(0, 0, 0, 1); color: white; text-align: center; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h1>Scegli il tuo Pokémon iniziale</h1>
+        <div id="pokemon-container" style="display: flex; justify-content: space-around; width: 50%;">
+            <div class="pokemon" data-pokemon="squirtle" style="cursor: pointer;">
+                <img src="assets/squirtle.png" style="width: 100px; height: 100px;">
+                <p>Squirtle</p>
+            </div>
+            <div class="pokemon" data-pokemon="bulbasaur" style="cursor: pointer;">
+                <img src="assets/bulbasaur.png" style="width: 100px; height: 100px;">
+                <p>Bulbasaur</p>
+            </div>
+            <div class="pokemon" data-pokemon="charmander" style="cursor: pointer;">
+                <img src="assets/charmander.png" style="width: 100px; height: 100px;">
+                <p>Charmander</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VICTORY SCREEN -->
+
+    <div id="victory-screen" class="win-table">
+        <img id="winning-icon" src="" style="width: 100px; height: 100px;">
+        <p id="victory-message"></p>
+        <button id="restart-button" class="restart">Ricomincia</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
