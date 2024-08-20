@@ -2,7 +2,7 @@ window.onload = function() {
     var config = {
         type: Phaser.AUTO,
         width: window.innerWidth * 0.85,
-        height: window.innerHeight * 0.85,
+        height: window.innerHeight * 0.8,  // Altezza impostata al 90% dello schermo
         backgroundColor: '#000000',
         scene: {
             preload: preload,
@@ -23,8 +23,8 @@ window.onload = function() {
     window.addEventListener('resize', resizeGame);
     
     function resizeGame() {
-        var width = window.innerWidth * 0.7;
-        var height = window.innerHeight * 0.7;
+        var width = window.innerWidth * 0.85;
+        var height = window.innerHeight * 0.90;  // Altezza impostata al 90% dello schermo
     
         game.scale.resize(width, height);
         game.physics.world.setBounds(0, 0, width, height);
@@ -75,7 +75,7 @@ window.onload = function() {
         updateScores();
         // Set up world bounds collision
         this.physics.world.bounds.width = window.innerWidth * 0.85;
-        this.physics.world.bounds.height = window.innerHeight * 0.85;
+        this.physics.world.bounds.height = window.innerHeight * 0.90;  // Altezza impostata al 90% dello schermo
     
         // Gestione pulsanti
         document.getElementById('start-button').addEventListener('click', startGame);
